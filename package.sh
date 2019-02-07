@@ -19,7 +19,7 @@ if [ "${BP_REWRITE_HOST:-}" != "" ]; then
     sed -i -e "s|^uri = \"https:\/\/buildpacks\.cloudfoundry\.org\(.*\)\"$|uri = \"http://$BP_REWRITE_HOST\1\"|g" "$bp_dir/buildpack.toml"
 fi
 
-for b in $(ls "$bp_dir/cmd"); do
+for b in $(ls cmd); do
     echo -n "Building $b..."
     GOOS=$TARGET_OS go build -o $bp_dir/bin/$b ./cmd/$b
     echo "done"
