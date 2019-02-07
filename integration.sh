@@ -8,7 +8,8 @@ if [[ ! -d integration ]]; then
     exit 1
 fi
 
-source ./scripts/install_tools.sh
+PACK_VERSION=${PACK_VERSION:-""}
+source ./scripts/install_tools.sh $PACK_VERSION
 
 export CNB_BUILD_IMAGE=${CNB_BUILD_IMAGE:-cfbuildpacks/cflinuxfs3-cnb-experimental:build}
 export CNB_RUN_IMAGE=${CNB_RUN_IMAGE:-cfbuildpacks/cflinuxfs3-cnb-experimental:run}

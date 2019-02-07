@@ -4,21 +4,21 @@ set -euo pipefail
 PACK_VERSION=latest
 
 usage() {
-		echo "Usage:   install_tools.sh <version: optional>"
-		echo "Example: install_tools.sh 0.0.9"
-		exit 0
+    echo "Usage:   install_tools.sh <version: optional>"
+    echo "Example: install_tools.sh 0.0.9"
+    exit 0
 }
 
 if [ "$#" -gt 1  ]; then
-		usage
+    usage
 fi
 
 if [[ "$#" -eq 1 && $1 == "-h"  ]]; then
-		usage
+    usage
 fi
 
 if [ "$#" -eq 1  ]; then
-		PACK_VERSION="$1"
+    PACK_VERSION="$1"
 fi
 
 install_pack() {
