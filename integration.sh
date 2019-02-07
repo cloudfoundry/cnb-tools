@@ -2,6 +2,12 @@
 set -euo pipefail
 
 cd "$( dirname "${BASH_SOURCE[0]}" )/.."
+
+if [[ ! -d integration ]]; then
+    echo "No integration tests"
+    exit 1
+fi
+
 source ./scripts/install_tools.sh
 
 export CNB_BUILD_IMAGE=${CNB_BUILD_IMAGE:-cfbuildpacks/cflinuxfs3-cnb-experimental:build}
