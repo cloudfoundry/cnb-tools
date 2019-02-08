@@ -69,9 +69,16 @@ expand() {
     rm $PACK_ARTIFACT
 }
 
+configure_pack() {
+    pack add-stack org.cloudfoundry.stacks.cflinuxfs3 \
+        --build-image cfbuildpacks/cflinuxfs3-cnb-experimental:build \
+        --run-image cfbuildpacks/cflinuxfs3-cnb-experimental:run || echo "Ignoring add stack error"
+}
+
 cd "$( dirname "${BASH_SOURCE[0]}" )/.."
 
 mkdir -p .bin
 export PATH=$(pwd)/.bin:$PATH
 
 install_pack
+configure_pack
