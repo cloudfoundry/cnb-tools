@@ -21,7 +21,7 @@ const (
 	DST    = ".bin"
 )
 
-func InstallTools() {
+func InstallTools(ver string) {
 	flag.Parse()
 
 	args := len(flag.Args())
@@ -31,7 +31,11 @@ func InstallTools() {
 
 	version := flag.Arg(0)
 	if version == "" {
-		version = "latest"
+		if ver == "" {
+			version = "latest"
+		} else {
+			version = ver
+		}
 	}
 
 	if err := installPack(version); err != nil {

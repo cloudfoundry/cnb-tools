@@ -22,5 +22,5 @@ func init() {
 }
 
 func main() {
-	action.InstallTools()
+	action.InstallTools("")
 }

@@ -4,11 +4,9 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"syscall"
-)
 
-const RED = "\n\033[0;31m%s\033[0m\n"
-const GREEN = "\n\033[0;32m%s\033[0m\n"
+	"github.com/cloudfoundry/cnb-tools/utils"
+)
 
 func main() {
 	fmt.Println("Run Buildpack Unit Tests")
@@ -18,18 +16,9 @@ func main() {
 	fmt.Println(string(out))
 
 	if err != nil {
-		fmt.Printf(RED, "GO Test Failed")
-		os.Exit(ExitCode(err))
+		fmt.Printf(utils.RED, "GO Test Failed")
+		os.Exit(utils.ExitCode(err))
 	} else {
-		fmt.Printf(GREEN, "GO Test Succeeded")
+		fmt.Printf(utils.GREEN, "GO Test Succeeded")
 	}
-}
-
-func ExitCode(err error) int {
-	if exiterr, ok := err.(*exec.ExitError); ok {
-		if status, ok := exiterr.Sys().(syscall.WaitStatus); ok {
-			return status.ExitStatus()
-		}
-	}
-	return 1
 }
