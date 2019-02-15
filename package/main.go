@@ -58,7 +58,7 @@ func main() {
 	hash := sha256.Sum256([]byte(string(timestamp)))
 	guid := hex.EncodeToString(hash[:])
 
-	bpDir := filepath.Join("/tmp", fmt.Sprintf("%s_%s", cwd, guid[:24]))
+	bpDir := filepath.Join("/tmp", fmt.Sprintf("%s-%s", cwd, guid[:24]))
 	if err := os.MkdirAll(bpDir, os.ModePerm); err != nil {
 		log.Fatal(err)
 	}
