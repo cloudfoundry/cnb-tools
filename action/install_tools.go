@@ -21,15 +21,15 @@ const (
 	DST    = ".bin"
 )
 
-func InstallTools(ver string) {
+func InstallTools(ver string) error {
 	flag.Parse()
 
 	args := len(flag.Args())
-	if args > 1 {
+	if args > 2 {
 		flag.Usage()
 	}
 
-	version := flag.Arg(0)
+	version := flag.Arg(1)
 	if version == "" {
 		if ver == "" {
 			version = "latest"
@@ -38,11 +38,14 @@ func InstallTools(ver string) {
 		}
 	}
 
+	fmt.Println(version)
+
 	if err := installPack(version); err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to install pack\n")
 		fmt.Fprintf(os.Stderr, "Error: %s\n", err.Error())
-		os.Exit(1)
+		return err
 	}
+	return nil
 }
 
 type Asset struct {

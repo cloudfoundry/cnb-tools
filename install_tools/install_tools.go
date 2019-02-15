@@ -1,4 +1,4 @@
-package main
+package install_tools_cnb
 
 import (
 	"flag"
@@ -21,6 +21,6 @@ func init() {
 	}
 }
 
-func main() {
-	action.InstallTools("")
+func Run() error {
+	return action.InstallTools("")
 }

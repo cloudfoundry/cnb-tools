@@ -1,14 +1,13 @@
-package main
+package unit_cnb
 
 import (
 	"fmt"
-	"os"
 	"os/exec"
 
 	"github.com/cloudfoundry/cnb-tools/utils"
 )
 
-func main() {
+func Run() error {
 	fmt.Println("Run Buildpack Unit Tests")
 
 	cmd := exec.Command("go", "test", "./...", "-v", "-run", "Unit")
@@ -17,8 +16,9 @@ func main() {
 
 	if err != nil {
 		fmt.Printf(utils.RED, "GO Test Failed")
-		os.Exit(utils.ExitCode(err))
+		return err
 	} else {
 		fmt.Printf(utils.GREEN, "GO Test Succeeded")
 	}
+	return nil
 }

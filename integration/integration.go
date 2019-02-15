@@ -1,8 +1,7 @@
-package main
+package integration_cnb
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"os/exec"
 
@@ -18,10 +17,10 @@ const (
 	DEFAULT_RUN_IMAGE   = "cfbuildpacks/cflinuxfs3-cnb-experimental:run"
 )
 
-func main() {
+func Run() error {
 	if _, err := os.Stat(INTEGRATION); os.IsNotExist(err) {
 		fmt.Println("** WARNING ** No integration tests specified")
-		os.Exit(0)
+		return nil
 	}
 
 	envPack := os.Getenv(ENVPACK)
@@ -43,7 +42,7 @@ func main() {
 	for _, image := range []string{runImage, buildImage} {
 		cmd := exec.Command("docker", "pull", image)
 		if err := cmd.Run(); err != nil {
-			log.Fatal(err)
+			return err
 		}
 	}
 
@@ -56,8 +55,9 @@ func main() {
 
 	if err != nil {
 		fmt.Printf(utils.RED, "GO Test Failed")
-		os.Exit(utils.ExitCode(err))
+		return err
 	} else {
 		fmt.Printf(utils.GREEN, "GO Test Succeeded")
 	}
+	return nil
 }

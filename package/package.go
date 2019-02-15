@@ -1,4 +1,4 @@
-package main
+package package_cnb
 
 import (
 	"crypto/sha256"
@@ -6,7 +6,6 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -33,7 +32,7 @@ func init() {
 	}
 }
 
-func main() {
+func Run() error {
 	flag.Parse()
 
 	args := len(flag.Args())
@@ -41,7 +40,7 @@ func main() {
 		flag.Usage()
 	}
 
-	osTarget := flag.Arg(0)
+	osTarget := flag.Arg(1)
 	if osTarget == "" {
 		osTarget = DEFAULT_OS
 	}
@@ -50,7 +49,7 @@ func main() {
 	fmt.Println("Creating buildpack directory...")
 	currentWorkingPath, err := os.Getwd()
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 	cwd := filepath.Base(currentWorkingPath)
 
@@ -60,7 +59,7 @@ func main() {
 
 	bpDir := filepath.Join("/tmp", fmt.Sprintf("%s-%s", cwd, guid[:24]))
 	if err := os.MkdirAll(bpDir, os.ModePerm); err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	fmt.Println("Done")
@@ -68,14 +67,14 @@ func main() {
 	fmt.Println("Copying", BUILDPACKTOML+"...")
 
 	if exists, err := helper.FileExists(BUILDPACKTOML); err != nil {
-		log.Fatal(err)
+		return err
 	} else if exists {
 		helper.CopyFile(BUILDPACKTOML, filepath.Join(bpDir, BUILDPACKTOML))
 	}
 	fmt.Println("Done")
 
 	if err := writeBuildpackTOML(bpDir); err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	cmdDir := filepath.Join(currentWorkingPath, "cmd")
@@ -95,10 +94,11 @@ func main() {
 		}
 		return nil
 	}); err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	fmt.Println("Buildpack packaged into:", bpDir)
+	return nil
 }
 
 func writeBuildpackTOML(bpDir string) error {
